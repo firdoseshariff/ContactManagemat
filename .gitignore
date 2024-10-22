@@ -3,3 +3,15 @@
 ################################################################################
 
 *.dll
+/contact/.vs/SAAssignment/v17/.suo
+/contact/bin/Debug/net6.0/appsettings.Development.json
+/contact/obj/Debug/net6.0/SAAssignment.MvcApplicationPartsAssemblyInfo.cache
+/contact/obj/Debug/net6.0/SAAssignment.pdb
+/contact/obj/Debug/net6.0/staticwebassets.build.json
+/contact/obj/Debug/net6.0/staticwebassets/msbuild.build.SAAssignment.props
+/contact/bin/Debug/net6.0/appsettings.Development.json
+/contact/obj/Debug/net6.0/SAAssignment.MvcApplicationPartsAssemblyInfo.cache
+/contact/obj/Debug/net6.0/SAAssignment.MvcApplicationPartsAssemblyInfo.cache
+/contact/obj/Debug/net6.0/SAAssignment.csproj.FileListAbsolute.txt
+/contact/obj/Debug/net6.0/SAAssignment.genruntimeconfig.cache
+/contact/obj/Debug/net6.0/staticwebassets/msbuild.buildTransitive.SAAssignment.props
