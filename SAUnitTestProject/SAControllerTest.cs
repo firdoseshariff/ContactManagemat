@@ -8,6 +8,8 @@ using SADataAcessLayer.Models;
 using SAServiceLayer;
 using SAUnitofWork;
 using Moq;
+using Microsoft.Extensions.Logging;
+
 namespace SAUnitTestProject
 {
     public class SAControllerTest
@@ -15,11 +17,13 @@ namespace SAUnitTestProject
         private Mock<IContactService> contactService;
         private Mock<IContactUnitofWork> icu;
         private Mock<ContactService> contService;
+        private readonly ILogger<ContactController> logger;
         //   private ContactController _controller;
 
         public SAControllerTest()
         {
             contactService = new Mock<IContactService>();
+            
 
 
         }
@@ -60,7 +64,7 @@ namespace SAUnitTestProject
             };
             // var con = ContactData();
             contactService.Setup(x => x.AddContact(con)).ReturnsAsync(true);
-            var _controller = new ContactController(contactService.Object);
+            var _controller = new ContactController(contactService.Object,logger);
             // var resp = await contService.AddContact(con);
             var result = await _controller.PostContact(con);
             //  Assert.That(var result = new { IsSuccess = true, Value = 1 };
@@ -83,7 +87,7 @@ namespace SAUnitTestProject
             };
             // var con = ContactData();
             contactService.Setup(x => x.AddContact(con)).ReturnsAsync(true);
-            var _controller = new ContactController(contactService.Object);
+            var _controller = new ContactController(contactService.Object, logger);
             // var resp = await contService.AddContact(con);
             var result = await _controller.PostContact(null);
             //  Assert.That(var result = new { IsSuccess = true, Value = 1 };
@@ -100,7 +104,7 @@ namespace SAUnitTestProject
             
             // var resp = await contService.AddContact(con);
             contactService.Setup(x => x.GetAllContact());
-            var _controller = new ContactController(contactService.Object);
+            var _controller = new ContactController(contactService.Object,logger);
             var result = await _controller.GetAllContactData();
             Assert.NotNull(result);
         }
@@ -112,7 +116,7 @@ namespace SAUnitTestProject
             contactService.Setup(x => x.GetContactById(Id)).Returns(Task.FromResult<Contact>(con));
 
 
-            var _controller = new ContactController(contactService.Object);
+            var _controller = new ContactController(contactService.Object, logger);
             // var resp = await contService.AddContact(con);
             var result = await _controller.GetAllContactbyId(Id);
             var successid = result as OkObjectResult;
@@ -129,7 +133,7 @@ namespace SAUnitTestProject
             var con = new Contact() { Id = 22, FirstName = "test" };
             contactService.Setup(x => x.GetContactById(Id)).Returns(Task.FromResult<Contact>(con));
 
-            var _controller = new ContactController(contactService.Object);
+            var _controller = new ContactController(contactService.Object, logger);
             
             var result = await _controller.GetAllContactbyId(88);
             var invaliid = result as NotFoundResult;
@@ -150,7 +154,7 @@ namespace SAUnitTestProject
 
             contactService.Setup(x => x.DeleteContactById(con.Id)).ReturnsAsync(true);
 
-            var _controller = new ContactController(contactService.Object);
+            var _controller = new ContactController(contactService.Object, logger);
             // var resp = await contService.AddContact(con);
             var result = await _controller.DeleteContact(con.Id);
             // var val=result.Equals(true);
@@ -171,7 +175,7 @@ namespace SAUnitTestProject
 
             contactService.Setup(x => x.DeleteContactById(con.Id)).ReturnsAsync(true);
 
-            var _controller = new ContactController(contactService.Object);
+            var _controller = new ContactController(contactService.Object, logger);
 
             // var resp = await contService.AddContact(con);
             var result = await _controller.DeleteContact(con.Id);
@@ -192,7 +196,7 @@ namespace SAUnitTestProject
             };
             // var con = ContactData();
             contactService.Setup(x => x.UpdateContact(con)).ReturnsAsync(true);
-            var _controller = new ContactController(contactService.Object);
+            var _controller = new ContactController(contactService.Object, logger);
             // var resp = await contService.AddContact(con);
             var result = await _controller.UpdateContactdata(con);
             //  Assert.That(var result = new { IsSuccess = true, Value = 1 };

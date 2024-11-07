@@ -11,9 +11,11 @@ namespace SAAssignment.Controllers
     {
         private readonly IContactService _contactService;
 
-        public ContactController(IContactService contactService)
+        public readonly ILogger<ContactController> _logger;
+        public ContactController(IContactService contactService, ILogger<ContactController> logger)
         {
             _contactService = contactService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -43,7 +45,7 @@ namespace SAAssignment.Controllers
             try
             {
                 var result = await _contactService.AddContact(contact);
-                if (result != null)
+                if (result == true)
                 {
 
                     return Ok(result);
@@ -81,7 +83,9 @@ namespace SAAssignment.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateContactdata([FromForm] Contact contact)
+        [Route("UpdateContact")]
+        
+        public async Task<IActionResult> UpdateContactdata([FromBody] Contact contact)
         {
             //  var data=_productService.GetProductById(productDetail.Id);
             try
@@ -103,6 +107,7 @@ namespace SAAssignment.Controllers
             return NoContent();
         }
         [HttpDelete]
+        [Route("Delete/{id}")]
         public async Task<IActionResult> DeleteContact(int id)
         {
             try

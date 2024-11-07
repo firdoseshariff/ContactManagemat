@@ -62,7 +62,7 @@ namespace SAServiceLayer
             return result;
         }
 
-        public async Task<Contact?> GetContactById(int id)
+        public async Task<Contact> GetContactById(int id)
         {
             if (id > 0)
             {
@@ -98,5 +98,6 @@ namespace SAServiceLayer
             return false;
             
         }
+        
     }
 }

@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAGRepositoryLayer", "..\SA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAContactLayer", "..\SAContactLayer\SAContactLayer.csproj", "{D9B4AC21-177F-48AA-B743-CECD2D009F0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAUnitofWork", "..\SAUnitofWork\SAUnitofWork.csproj", "{2D6B6B66-211C-4E59-B805-0DEB04726373}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAUnitofWork", "..\SAUnitofWork\SAUnitofWork.csproj", "{2D6B6B66-211C-4E59-B805-0DEB04726373}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAUnitTestProject", "..\SAUnitTestProject\SAUnitTestProject.csproj", "{4D6F2809-4F8D-4010-A8AD-697691AEB8CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{2D6B6B66-211C-4E59-B805-0DEB04726373}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D6B6B66-211C-4E59-B805-0DEB04726373}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D6B6B66-211C-4E59-B805-0DEB04726373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D6F2809-4F8D-4010-A8AD-697691AEB8CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D6F2809-4F8D-4010-A8AD-697691AEB8CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D6F2809-4F8D-4010-A8AD-697691AEB8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D6F2809-4F8D-4010-A8AD-697691AEB8CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{14CFE30A-763C-4533-94F4-55EEF4D93588} = {B79C28FF-4150-4238-8408-01BD5EE67602}
 		{D9B4AC21-177F-48AA-B743-CECD2D009F0E} = {B79C28FF-4150-4238-8408-01BD5EE67602}
 		{2D6B6B66-211C-4E59-B805-0DEB04726373} = {B79C28FF-4150-4238-8408-01BD5EE67602}
+		{4D6F2809-4F8D-4010-A8AD-697691AEB8CC} = {B79C28FF-4150-4238-8408-01BD5EE67602}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCF48606-DC06-419B-B5F2-1F58FA4EB591}
