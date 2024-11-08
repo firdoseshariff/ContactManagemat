@@ -1,7 +1,7 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, ViewChild,Input, NgZone} from '@angular/core';
+ import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, ViewChild,Input, ChangeDetectionStrategy} from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { MatTableDataSource} from "@angular/material/table";
 import { MatDialog } from "@angular/material/dialog";
 import { MatDialogConfig} from "@angular/material/dialog";
@@ -10,7 +10,6 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort'
 import{MatInputModule} from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -28,16 +27,18 @@ import { ContactService } from '../../Service/ContactUserService';
 import { UserContact } from '../ContactUser/ContactUser.component';
 import { contactdetail } from '../../Model/Contact';
 import { ToastrService } from 'ngx-toastr';
-import { error } from 'console';
 import { RouterLink } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
-
+import {  Observable, Subject } from 'rxjs';
+import { ContactUserEditUpdate } from '../ContactUserEdit/ContactUserEdit.component';
+// import { Interceptor } from '../../Service/Interceptors';
 @Component
 ({
 selector:'app-contactgrid',
 templateUrl:'./ContactUserGrid.html',
 standalone: true,
+changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule,ReactiveFormsModule,RouterLink,
     FlexLayoutServerModule,
      FlexLayoutModule,
@@ -57,74 +58,67 @@ standalone: true,
         MatPaginatorModule,
         MatSortModule,
         MatDialogModule,
-    
+          
       
       ],
-    // { provide: ToastrService, useClass: ToastrService },
-    // { provide: ToastNoAnimation, useClass: ToastNoAnimation }
-  //]
-styleUrl:'./ContactUserGrid.css'
+   
+styleUrl:'./ContactUserGrid.css',
+
 })
 export class ContactGrid implements OnInit
 {
   toaster=inject(ToastrService);
   service=inject(ContactService);
   dialog=inject(MatDialog);
-   public listData=new MatTableDataSource<any>();
-  //listData: any=[];
-  displayedColumns: string[] = ['Id','FirstName', 'LastName', 'Email','update','delete'];
+  displayedColumns: string[] = ['Id','FirstName', 'LastName', 'Email','Action'];
   @ViewChild(MatSort)
-  sort: MatSort = new MatSort;
+  sort!: MatSort ;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   searchKey:string="search";
+    dataSource: MatTableDataSource<contactdetail> = new MatTableDataSource();
+    private destroy$ = new Subject<void>();
 @Input() contuser:contactdetail=
 {
 Id:0,
 FirstName:"",
 LastName:"",
 Email:""
-}
-constructor(){
-  const ngZone = inject(NgZone);
-  ngZone.runOutsideAngular(() => {
-    setInterval(() => {}, 1000)
-  
-});
-}
-  ngOnInit(): void {
-this.getContact();
-  }
-  public getContact()
-  {
-    this.service.getcontact().subscribe
-    (
-   
-       res=> {
-          this.listData.data=res as contactdetail[];
-        // this.listData.sort=this.sort;
-        });
-      
-        }
-        ngAfterViewInit(): void {
+} 
 
-          this.listData.sort = this.sort;
-          this.listData.paginator=this.paginator;
-        }
-        public redirectToDetails = (Id:number) => {
-    
-        }
-        public redirectToUpdate = (Id: number) => {
-          
-        }
-        public redirectToDelete = (Id:number) => {
-          
-        }
-        public doFilter = (value: string) => {
-          this.listData.filter = value.trim().toLocaleLowerCase();
-        }
+
+ngOnInit(): void {
+ 
+  console.log('Component initialized:', this);
+  this.fetchData();
+  
+  
+}
+  
       
-    
+  
+  fetchData() {
+    this.service.getcontact(). subscribe(
+      (res) => {
+        console.table(res);
+        this.dataSource.data = [...res];
+        
+      },
+        );
+  }
+  
+ 
+        ngAfterViewInit(): void {
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator
+          console.log(this.sort);
+                
+         }
+      
+        doFilter(event: Event) {
+          const filter = (event.target as HTMLInputElement).value;
+          this.dataSource.filter = filter.trim().toLowerCase();
+        }
 
   
   onSearchClear() {
@@ -133,36 +127,59 @@ this.getContact();
   }
 
   applyFilter() {
-    this.listData.filter = this.searchKey.trim().toLowerCase();
+    this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
-
 
   onCreate() {
     this.service.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = "60%";
+    dialogConfig.disableClose = false
+       dialogConfig.autoFocus = true;
+    dialogConfig.width = "50%";
     this.dialog.open(UserContact,dialogConfig);
   
   }
+   
 
-  
+OnUpdate(updatedContact: contactdetail): void {
+  const index = this.dataSource.data.findIndex(c => c.Id === updatedContact.Id);
+  if (index !== -1) {
+    this.dataSource.data[index] = updatedContact;
+    this.dataSource = new MatTableDataSource(this.dataSource.data); 
+  }
+}
 
+  onEdit(id:any): void {
   
-  
-OnUpdate()
-{
-  this.service.updatecontact(this.contuser.Id,this.contuser).subscribe
-  ({
-    next:(res)=>
-    {
-       this.toaster.success("updated");
-    },
-    error:(er)=>console.error(er)
-
+  const contact = this.dataSource.data.find(c => c.Id === id);
+    
+  const dialogRef = this.dialog.open(ContactUserEditUpdate, {
+    width: '400px',
+  data: { contact }
   });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      
+      this.OnUpdate(result);
+    }
+  });
+  
 }
 
+
+onDelete(id: number): void {
+  console.log('Delete contact with id', id);
+  
+    if (confirm('Are you sure you want to delete this contact?')) {
+    
+    this.service.deleteContact(id).subscribe(() => {
+            this.dataSource.data = this.dataSource.data.filter(contact => contact.Id !== id);
+      this.toaster.success("contact deleted")
+      console.log(`Contact with id ${id} deleted`);
+    });
+  }
 }
+
+}  
 

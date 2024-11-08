@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Edit Contact</h2>
+
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Id</mat-label>
+    <input matInput formControlName="Id">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>First Name</mat-label>
+    <input matInput formControlName="FirstName">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Last Name</mat-label>
+    <input matInput formControlName="LastName">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="Email" type="Email">
+  </mat-form-field>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button (click)="onCancel()" color="primary">Cancel</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button mat-raised-button  (click)="onSave()" color="accent">Save</button>
+  </div>
+</form>
+<!-- [disabled]="!form.valid" -->

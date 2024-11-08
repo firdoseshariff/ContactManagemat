@@ -2,6 +2,7 @@
 using SADataAcessLayer.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +26,14 @@ namespace SAGRepositoryLayer
         }
         public async Task<bool> AddContact(T entity)
         {
-           
-            await tabledata.AddAsync(entity);
-            return true;
+
+            if (entity != null)
+            {
+                await tabledata.AddAsync(entity);
+                return true;
+            }
+            else
+                return false;
 
         }
 
@@ -44,7 +50,14 @@ namespace SAGRepositoryLayer
 
         public async Task<T> GetById(int id)
         {
-            return await  tabledata.FindAsync(id);
+            if (id != null && id > 0)
+            {
+                return await tabledata.FindAsync(id);
+            }
+            else
+            {
+                return null;
+            }
         
         }
 

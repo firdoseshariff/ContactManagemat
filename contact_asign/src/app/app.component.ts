@@ -10,7 +10,9 @@ import { PreloadAllModules, provideRouter, withPreloading, withDebugTracing } fr
   standalone: true,
   imports: [CommonModule, RouterOutlet,RouterLink,RouterLinkActive,RouterLinkWithHref],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  host:{ngSkipHydration: 'false'}
+
 })
 export class AppComponent {
   title = 'contact';

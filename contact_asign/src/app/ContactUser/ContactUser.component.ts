@@ -1,4 +1,4 @@
-import{Component, NgZone, OnInit,inject} from '@angular/core';
+import{ApplicationRef, Component, NgZone, OnInit,inject} from '@angular/core';
 import { first } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { contactdetail } from '../../Model/Contact';
@@ -14,10 +14,13 @@ import {
     ReactiveFormsModule,
   } from '@angular/forms';
   import Validation from '../../utility/validation'
-//import { RouterOutlet } from '@angular/router';
+
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { error } from 'console';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component
 ({
@@ -25,19 +28,18 @@ selector:'app-contact',
 templateUrl:'./ContactUser.component.html',
 
 standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,RouterLink],
-    // { provide: ToastNoAnimation, useClass: ToastNoAnimation }
-  //]
-styleUrl:'./ContactUser.component.css'
+  imports: [CommonModule,ReactiveFormsModule,RouterLink,MatInputModule,MatIconModule],
+   
+styleUrl:'./ContactUser.component.css',
+host:{ngSkipHydration: 'false'}
+
 })
 export class UserContact implements OnInit
 {
+  
   router = inject(Router);
   route = inject(ActivatedRoute);
   service=inject(ContactService);
-//toster=inject(ToastrService);
- // @ViewChild(ToastContainerDirective, { static: true })
- // toastContainer=inject(ToastContainerDirective);
 
     form: FormGroup = new FormGroup({
         FirstName: new FormControl(''),
@@ -46,14 +48,17 @@ export class UserContact implements OnInit
 });
 submitted=false;
 
-constructor(private formBuilder: FormBuilder,private toster:ToastrService) {
-
-  const ngZone = inject(NgZone);
-    ngZone.runOutsideAngular(() => {
-      setInterval(() => {}, 1000);
-    });
+constructor(private formBuilder: FormBuilder,private toster:ToastrService,
+  public dialogRef: MatDialogRef<UserContact>
+) {
+  const applicationRef = inject(ApplicationRef);
+  applicationRef.isStable.pipe( first((isStable) => isStable) ).subscribe(() => {
+   
+    setTimeout(() => {1000});
   
-}
+ 
+  });
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group(
@@ -99,6 +104,7 @@ constructor(private formBuilder: FormBuilder,private toster:ToastrService) {
   onReset(): void {
     this.submitted= false;
     this.form.reset();
+    
   }
   postContact()
   {
@@ -113,5 +119,9 @@ constructor(private formBuilder: FormBuilder,private toster:ToastrService) {
   },error:(error)=>console.error("no data added",error)
   });
   }
+closecontact()
+{
+this.dialogRef.close(null)
+}
 
 }
