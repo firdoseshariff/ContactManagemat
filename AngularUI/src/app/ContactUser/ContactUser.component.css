@@ -1,0 +1,24 @@
+p {
+    font-family: Lato;
+  }
+  
+  #root {
+    padding: 30px;
+  }
+  
+  .contact-form {
+    max-width: 350px;
+    margin: auto;
+  }
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+  }
+  
+  .close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }

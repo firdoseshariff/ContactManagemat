@@ -25,12 +25,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\contact\SAAssignment.csproj" />
     <ProjectReference Include="..\SAContactLayer\SAContactLayer.csproj" />
     <ProjectReference Include="..\SADataAcessLayer\SADataAcessLayer.csproj" />
     <ProjectReference Include="..\SAGRepositoryLayer\SAGRepositoryLayer.csproj" />
     <ProjectReference Include="..\SAServiceLayer\SAServiceLayer.csproj" />
+    <ProjectReference Include="..\SASoulutionWeb\SAAssignment.csproj" />
     <ProjectReference Include="..\SAUnitofWork\SAUnitofWork.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SAAssignment">
+      <HintPath>..\SASoulutionWeb\bin\Debug\net6.0\SAAssignment.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
