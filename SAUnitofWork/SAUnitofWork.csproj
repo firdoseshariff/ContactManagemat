@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SAContactLayer\SAContactLayer.csproj" />
+    <ProjectReference Include="..\SAContact_Layer\SAContact_Layer.csproj" />
     <ProjectReference Include="..\SADataAcessLayer\SADataAcessLayer.csproj" />
   </ItemGroup>
 
