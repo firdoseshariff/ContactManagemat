@@ -20,3 +20,6 @@ th.mat-header-cell {
     border: none;
     outline: none;
   }
+  .space {
+    margin-right: 10px;
+  }

@@ -4,22 +4,15 @@ import { UserContact } from './ContactUser/ContactUser.component';
 import { ContactGrid } from './ContactUserGrid/ContactUserGrid.component';
 import {  ContactUserEditUpdate } from './ContactUserEdit/ContactUserEdit.component';
 
-//export const routes: Routes = [];
 export const routes: Routes= [
 
-    // {
-    //     path: "",
-    //     pathMatch: "full",
-    //     redirectTo: "AppComponent"
-    //   },
+    
      
       {
 path:'MyContact',
 component:UserContact
       
-//loadChildren:()=>import('./ContactUser/ContactUser.route').then((m) => m.CONTACT_ROUTES),
-//loadComponent:()=>import('./ContactUser/ContactUser.component').then((m)=>m.UserContact)
-      },
+     },
      {
       path:'UserGrid',
       //loadComponent:()=>import('./ContactUserGrid/ContactUserGrid.component').then((m)=>m.ContactGrid)

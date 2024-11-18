@@ -32,7 +32,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 import {  Observable, Subject } from 'rxjs';
 import { ContactUserEditUpdate } from '../ContactUserEdit/ContactUserEdit.component';
-// import { Interceptor } from '../../Service/Interceptors';
+import { ChangeDetectorRef } from '@angular/core';
 @Component
 ({
 selector:'app-contactgrid',
@@ -68,9 +68,10 @@ styleUrl:'./ContactUserGrid.css',
 export class ContactGrid implements OnInit
 {
   toaster=inject(ToastrService);
+  cdr=inject( ChangeDetectorRef);
   service=inject(ContactService);
   dialog=inject(MatDialog);
-  displayedColumns: string[] = ['Id','FirstName', 'LastName', 'Email','Action'];
+  displayedColumns: string[] = ['id','firstName', 'lastName', 'email','Action'];
   @ViewChild(MatSort)
   sort!: MatSort ;
   @ViewChild(MatPaginator)
@@ -102,17 +103,19 @@ ngOnInit(): void {
       (res) => {
         console.table(res);
         this.dataSource.data = [...res];
-        
+      
+   
       },
         );
   }
   
  
         ngAfterViewInit(): void {
+          
+          this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator
-          console.log(this.sort);
-                
+          this.cdr.markForCheck();
+                   
          }
       
         doFilter(event: Event) {

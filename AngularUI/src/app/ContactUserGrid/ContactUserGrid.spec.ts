@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ContactGrid } from './ContactUserGrid';
+import { ContactGrid } from './ContactUserGrid.component'
 import { ContactService } from '../../Service/ContactUserService';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
